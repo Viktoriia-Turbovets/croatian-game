@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Міні-гра: Вивчення хорватської мови</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Міні-гра: Вивчення хорватської мови</h1>
+    <p>Вгадайте переклад слова за 15 секунд!</p>
+
+    <div class="select-row">
+      <label for="category">Оберіть категорію:</label>
+      <select id="category" onchange="changeCategory()">
+        <option value="greetings">Привітання</option>
+        <option value="food">Їжа та напої</option>
+        <option value="travel">Подорожі</option>
+        <option value="weather">Погода</option>
+        <option value="family">Сім’я</option>
+        <option value="professions">Професії</option>
+        <option value="animals">Тварини</option>
+        <option value="clothes">Одяг</option>
+        <option value="colors">Кольори</option>
+        <option value="school">Школа</option>
+      </select>
+    </div>
+
+    <div class="select-row">
+      <label for="translation-direction">Напрямок перекладу:</label>
+      <select id="translation-direction" onchange="changeDirection()">
+        <option value="hr-to-ua">Хорватська → Українська</option>
+        <option value="ua-to-hr">Українська → Хорватська</option>
+      </select>
+    </div>
+
+    <div id="word-card" class="word-card">Натисніть "Наступне слово"</div>
+    <div id="options" class="options"></div>
+
+    <button onclick="startNewGame()">Нова гра</button>
+    <button onclick="endGame()">Завершити гру</button>
+
+    <div id="timer-container">
+      <div id="timer-bar"></div>
+    </div>
+
+    <div id="progress-container">
+      <div id="progress-bar"></div>
+    </div>
+
+    <p id="feedback"></p>
+    <p id="score">Рахунок: 0</p>
+    <p id="combo">Серія правильних відповідей: 0</p>
+    <p>Найвищий рекорд: <span id="highscore">0</span></p>
+
+    <div id="final-result" class="final-result"></div>
+
+    <!-- Аудіо файли -->
+    <audio id="sound-correct" src="correct.mp3"></audio>
+    <audio id="sound-wrong" src="wrong.mp3"></audio>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
