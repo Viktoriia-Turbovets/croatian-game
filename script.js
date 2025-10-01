@@ -1,133 +1,4 @@
-const categories = {
-  greetings: [
-    {hr: "Dobar dan", ua: "Добрий день"},
-    {hr: "Hvala", ua: "Дякую"},
-    {hr: "Molim", ua: "Будь ласка"},
-    {hr: "Da", ua: "Так"},
-    {hr: "Ne", ua: "Ні"},
-    {hr: "Oprostite", ua: "Вибачте"},
-    {hr: "Izvolite", ua: "Ось, будь ласка"},
-    {hr: "Zdravo", ua: "Привіт"},
-    {hr: "Doviđenja", ua: "До побачення"},
-    {hr: "Lijepo", ua: "Гарно"},
-    {hr: "Kako si?", ua: "Як ти?"},
-    {hr: "Dobro jutro", ua: "Доброго ранку"},
-    {hr: "Laku noć", ua: "На добраніч"},
-    {hr: "Što radiš?", ua: "Що робиш?"},
-    {hr: "Razumijem", ua: "Розумію"}
-  ],
-  food: [
-    {hr: "Voda", ua: "Вода"},
-    {hr: "Kruh", ua: "Хліб"},
-    {hr: "Sir", ua: "Сир"},
-    {hr: "Mlijeko", ua: "Молоко"},
-    {hr: "Juha", ua: "Суп"},
-    {hr: "Riba", ua: "Риба"},
-    {hr: "Piletina", ua: "Курка"},
-    {hr: "Voće", ua: "Фрукти"},
-    {hr: "Povrće", ua: "Овочі"},
-    {hr: "Kava", ua: "Кава"},
-    {hr: "Čaj", ua: "Чай"},
-    {hr: "Sok", ua: "Сік"},
-    {hr: "Sladoled", ua: "Морозиво"},
-    {hr: "Torta", ua: "Торт"},
-    {hr: "Jaje", ua: "Яйце"}
-  ],
-  travel: [
-    {hr: "Gdje je WC?", ua: "Де туалет?"},
-    {hr: "Koliko to košta?", ua: "Скільки це коштує?"},
-    {hr: "Mogu li pomoći?", ua: "Можу я допомогти?"},
-    {hr: "Sretan put", ua: "Щасливої дороги"},
-    {hr: "Gdje mogu naći restoran?", ua: "Де я можу знайти ресторан?"},
-    {hr: "Koliko traje putovanje?", ua: "Скільки триває подорож?"},
-    {hr: "Koje je tvoje ime?", ua: "Як тебе звати?"},
-    {hr: "Ja sam umoran", ua: "Я втомився"},
-    {hr: "Moram ići", ua: "Мені треба йти"},
-    {hr: "Veselim se sutra", ua: "Радий завтрашньому дню"},
-    {hr: "Možeš li ponoviti?", ua: "Можеш повторити?"},
-    {hr: "Autobusna stanica", ua: "Автобусна зупинка"},
-    {hr: "Vlak", ua: "Поїзд"},
-    {hr: "Zračna luka", ua: "Аеропорт"},
-    {hr: "Karta", ua: "Квиток"}
-  ],
-  weather: [
-    {hr: "Sunce", ua: "Сонце"},
-    {hr: "Kiša", ua: "Дощ"},
-    {hr: "Snijeg", ua: "Сніг"},
-    {hr: "Vjetar", ua: "Вітер"},
-    {hr: "Oblaci", ua: "Хмари"},
-    {hr: "Hladno", ua: "Холодно"},
-    {hr: "Toplo", ua: "Тепло"},
-    {hr: "Jesen", ua: "Осінь"},
-    {hr: "Zima", ua: "Зима"},
-    {hr: "Ljeto", ua: "Літо"},
-    {hr: "Proljeće", ua: "Весна"}
-  ],
-  family: [
-    {hr: "Otac", ua: "Батько"},
-    {hr: "Majka", ua: "Мати"},
-    {hr: "Brat", ua: "Брат"},
-    {hr: "Sestra", ua: "Сестра"},
-    {hr: "Dijete", ua: "Дитина"},
-    {hr: "Baka", ua: "Бабуся"},
-    {hr: "Djed", ua: "Дідусь"},
-    {hr: "Rođak", ua: "Родич"},
-    {hr: "Obitelj", ua: "Сім’я"}
-  ],
-  professions: [
-    {hr: "Liječnik", ua: "Лікар"},
-    {hr: "Učitelj", ua: "Вчитель"},
-    {hr: "Inženjer", ua: "Інженер"},
-    {hr: "Policajac", ua: "Поліцейський"},
-    {hr: "Vatrogasac", ua: "Пожежник"},
-    {hr: "Kuhar", ua: "Кухар"},
-    {hr: "Student", ua: "Студент"},
-    {hr: "Umjetnik", ua: "Митець"},
-    {hr: "Pjevač", ua: "Співак"}
-  ],
-  animals: [
-    {hr: "Pas", ua: "Собака"},
-    {hr: "Mačka", ua: "Кішка"},
-    {hr: "Ptica", ua: "Птах"},
-    {hr: "Konj", ua: "Кінь"},
-    {hr: "Riba", ua: "Риба"},
-    {hr: "Slon", ua: "Слон"},
-    {hr: "Zec", ua: "Кролик"},
-    {hr: "Krava", ua: "Корова"}
-  ],
-  clothes: [
-    {hr: "Košulja", ua: "Сорочка"},
-    {hr: "Hlače", ua: "Штани"},
-    {hr: "Haljina", ua: "Сукня"},
-    {hr: "Kaput", ua: "Пальто"},
-    {hr: "Čarape", ua: "Шкарпетки"},
-    {hr: "Cipele", ua: "Взуття"},
-    {hr: "Kapa", ua: "Кепка"},
-    {hr: "Rukavice", ua: "Рукавички"}
-  ],
-  colors: [
-    {hr: "Crvena", ua: "Червоний"},
-    {hr: "Plava", ua: "Синій"},
-    {hr: "Zelena", ua: "Зелений"},
-    {hr: "Žuta", ua: "Жовтий"},
-    {hr: "Crna", ua: "Чорний"},
-    {hr: "Bijela", ua: "Білий"},
-    {hr: "Smeđa", ua: "Коричневий"},
-    {hr: "Narančasta", ua: "Помаранчевий"}
-  ],
-  school: [
-    {hr: "Knjiga", ua: "Книга"},
-    {hr: "Olovka", ua: "Олівець"},
-    {hr: "Bilježnica", ua: "Зошит"},
-    {hr: "Učitelj", ua: "Вчитель"},
-    {hr: "Učenik", ua: "Учень"},
-    {hr: "Škola", ua: "Школа"},
-    {hr: "Stolica", ua: "Стілець"},
-    {hr: "Ploča", ua: "Дошка"}
-  ]
-};
-
-// ====== Змінні гри ======
+// Змінні гри
 let currentWord = {};
 let score = 0;
 let combo = 0;
@@ -142,37 +13,38 @@ let translationDirection = 'hr-to-ua';
 const soundCorrect = document.getElementById('sound-correct');
 const soundWrong = document.getElementById('sound-wrong');
 
-// ====== Функції ======
-function changeCategory() {
-  currentCategory = document.getElementById('category').value;
-  usedWords = [];
-  updateProgress();
-  nextWord();
-}
+// Дані для категорій
+const categories = {
+  greetings: [
+    {hr:"Dobar dan", ua:"Добрий день"},
+    {hr:"Hvala", ua:"Дякую"},
+    {hr:"Molim", ua:"Будь ласка"},
+    {hr:"Da", ua:"Так"},
+    {hr:"Ne", ua:"Ні"}
+  ],
+  food: [
+    {hr:"Voda", ua:"Вода"},
+    {hr:"Kruh", ua:"Хліб"},
+    {hr:"Sir", ua:"Сир"},
+    {hr:"Mlijeko", ua:"Молоко"}
+  ]
+};
 
-function changeDirection() {
-  translationDirection = document.getElementById('translation-direction').value;
-  nextWord();
-}
+// Функції зміни категорії, напрямку та рівня
+function changeCategory(){ currentCategory = document.getElementById('category').value; usedWords=[]; updateProgress(); document.getElementById('word-card').textContent=''; document.getElementById('options').innerHTML=''; }
+function changeDirection(){ translationDirection = document.getElementById('translation-direction').value; document.getElementById('word-card').textContent=''; document.getElementById('options').innerHTML=''; }
+function changeLevel(){ level=parseInt(document.getElementById('level').value); document.getElementById('word-card').textContent=''; document.getElementById('options').innerHTML=''; }
 
-function changeLevel() {
-  level = parseInt(document.getElementById('level').value);
-  nextWord();
-}
-
-function nextWord() {
+// Вибір наступного слова
+function nextWord(){
   clearInterval(timer);
-  timeLeft = 15;
-  updateTimer();
+  timeLeft=15; updateTimer();
 
-  const wordsArray = categories[currentCategory];
-  if (usedWords.length === wordsArray.length) {
-    endGame();
-    return;
-  }
+  const wordsArray=categories[currentCategory];
+  if(usedWords.length===wordsArray.length){ endGame(); return; }
 
   let randomIndex;
-  do {
+    do {
     randomIndex = Math.floor(Math.random() * wordsArray.length);
   } while (usedWords.includes(randomIndex));
 
@@ -184,27 +56,19 @@ function nextWord() {
   document.getElementById('options').innerHTML = '';
 
   let questionWord = translationDirection === 'hr-to-ua' ? currentWord.hr : currentWord.ua;
-  showWordWithAnimation(questionWord); // Використовуємо анімацію
+  showWordWithAnimation(questionWord);
 
   createOptions();
   startTimer();
 }
 
-function updateProgress() {
-  const total = categories[currentCategory].length;
-  const progressPercent = (usedWords.length / total) * 100;
-  document.getElementById('progress-bar').style.width = progressPercent + "%";
-}
-
+// Створення варіантів відповіді
 function createOptions() {
   const optionsContainer = document.getElementById('options');
-  let optionsCount = 4;
-  if (level === 1) optionsCount = 2;
-  else if (level === 2) optionsCount = 3;
+  let optionsCount = level === 1 ? 2 : level === 2 ? 3 : 4;
 
   const allWords = [].concat(...Object.values(categories));
   const answersSet = new Set();
-
   let correctAnswer = translationDirection === 'hr-to-ua' ? currentWord.ua : currentWord.hr;
   let questionWord = translationDirection === 'hr-to-ua' ? currentWord.hr : currentWord.ua;
   document.getElementById('word-card').textContent = questionWord;
@@ -227,6 +91,7 @@ function createOptions() {
   });
 }
 
+// Вибір відповіді
 function selectAnswer(btn, correctAnswer) {
   document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
 
@@ -248,10 +113,10 @@ function selectAnswer(btn, correctAnswer) {
   document.getElementById('score').textContent = `Рахунок: ${score}`;
   document.getElementById('combo').textContent = `Серія правильних відповідей: ${combo}`;
 
-  // Через 1 секунду автоматично показати наступне слово
   setTimeout(() => nextWord(), 1000);
 }
 
+// Таймер
 function startTimer() {
   timer = setInterval(() => {
     timeLeft--;
@@ -275,6 +140,14 @@ function updateTimer() {
   document.getElementById('timer-bar').style.width = width + "%";
 }
 
+// Прогрес
+function updateProgress() {
+  const total = categories[currentCategory].length;
+  const progressPercent = (usedWords.length / total) * 100;
+  document.getElementById('progress-bar').style.width = progressPercent + "%";
+}
+
+// Кінець гри
 function endGame() {
   clearInterval(timer);
   if (score > highscore) highscore = score;
@@ -288,6 +161,7 @@ function endGame() {
   document.getElementById('progress-bar').style.width = "100%";
 }
 
+// Нова гра
 function startNewGame() {
   score = 0;
   combo = 0;
@@ -295,19 +169,18 @@ function startNewGame() {
   document.getElementById('score').textContent = `Рахунок: ${score}`;
   document.getElementById('combo').textContent = `Серія правильних відповідей: ${combo}`;
   document.getElementById('final-result').textContent = '';
-  nextWord(); // Гра стартує тільки після натискання кнопки
+  nextWord();
 }
 
+// Анімація слова
 function showWordWithAnimation(word) {
   const wordCard = document.getElementById('word-card');
-  // Зникає старе слово
   wordCard.style.opacity = 0;
   wordCard.style.transform = 'translateY(-20px)';
   
   setTimeout(() => {
     wordCard.textContent = word;
-    // Появляється нове слово
     wordCard.style.opacity = 1;
     wordCard.style.transform = 'translateY(0)';
-  }, 300); // 300 мс — тривалість анімації
+  }, 300);
 }
