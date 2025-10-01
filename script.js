@@ -306,23 +306,35 @@ function changeLevel(){ level=parseInt(document.getElementById('level').value); 
 
 // ====== Озвучка слова ======
 function speakWord(word) {
-  if ('speechSynthesis' in window) {
-    const utterance = new SpeechSynthesisUtterance(word);
-    // Встановлюємо мову хорватську
-    utterance.lang = 'hr-HR';
+  // Створюємо об’єкт озвучки
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = 'hr-HR'; // основна мова - хорватська
+
+  // Функція для вибору голосу після завантаження
+  function setVoice() {
+    const voices = speechSynthesis.getVoices();
     
-    // Опціонально: обрати конкретний голос серед доступних
-    const voices = window.speechSynthesis.getVoices();
-    const hrVoice = voices.find(voice => voice.lang === 'hr-HR');
-    if (hrVoice) {
-      utterance.voice = hrVoice;
-    }
+    // Шукаємо голос з хорватською мовою
+    const hrVoice = voices.find(v => v.lang.includes('hr'));
     
-    window.speechSynthesis.speak(utterance);
+    // Встановлюємо голос, якщо є, інакше використовуємо перший доступний
+    utterance.voice = hrVoice || voices[0];
+    
+    // Відтворюємо озвучку
+    speechSynthesis.speak(utterance);
+  }
+
+  // Деякі браузери завантажують голоси асинхронно
+  if (speechSynthesis.getVoices().length === 0) {
+    speechSynthesis.onvoiceschanged = setVoice;
   } else {
-    console.log('SpeechSynthesis не підтримується в цьому браузері.');
+    setVoice();
   }
 }
+
+// Викликати так, коли показуємо нове слово
+// Наприклад:
+speakWord(currentWord.hr); // якщо питання хорватське слово
 
 // ====== Зміна категорії, напрямку та рівня ======
 function changeCategory() {
