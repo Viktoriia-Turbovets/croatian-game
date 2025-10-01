@@ -16,17 +16,284 @@ const soundWrong = document.getElementById('sound-wrong');
 // Дані для категорій
 const categories = {
   greetings: [
-    {hr:"Dobar dan", ua:"Добрий день"},
-    {hr:"Hvala", ua:"Дякую"},
-    {hr:"Molim", ua:"Будь ласка"},
-    {hr:"Da", ua:"Так"},
-    {hr:"Ne", ua:"Ні"}
+    {hr: "Dobar dan", ua: "Добрий день"},
+    {hr: "Hvala", ua: "Дякую"},
+    {hr: "Molim", ua: "Будь ласка"},
+    {hr: "Da", ua: "Так"},
+    {hr: "Ne", ua: "Ні"},
+    {hr: "Oprostite", ua: "Вибачте"},
+    {hr: "Izvolite", ua: "Ось, будь ласка"},
+    {hr: "Zdravo", ua: "Привіт"},
+    {hr: "Doviđenja", ua: "До побачення"},
+    {hr: "Laku noć", ua: "На добраніч"},
+    {hr: "Dobro jutro", ua: "Доброго ранку"},
+    {hr: "Kako si?", ua: "Як ти?"},
+    {hr: "Što radiš?", ua: "Що робиш?"},
+    {hr: "Vidimo se", ua: "Побачимося"},
+    {hr: "Ugodan dan", ua: "Гарного дня"},
+    {hr: "Sve najbolje", ua: "Усього найкращого"},
+    {hr: "Sretno", ua: "Успіху"},
+    {hr: "Dobrodošli", ua: "Ласкаво просимо"},
+    {hr: "Čestitam", ua: "Вітаю"},
+    {hr: "Kako ste?", ua: "Як ви?"},
+    {hr: "Drago mi je", ua: "Радий зустрічі"},
+    {hr: "Lijepo vas je vidjeti", ua: "Приємно вас бачити"},
+    {hr: "Pozdrav", ua: "Вітання"},
+    {hr: "Dobar večer", ua: "Добрий вечір"},
+    {hr: "Prijatno", ua: "Смачного"}
   ],
+
   food: [
-    {hr:"Voda", ua:"Вода"},
-    {hr:"Kruh", ua:"Хліб"},
-    {hr:"Sir", ua:"Сир"},
-    {hr:"Mlijeko", ua:"Молоко"}
+    {hr: "Voda", ua: "Вода"},
+    {hr: "Kruh", ua: "Хліб"},
+    {hr: "Sir", ua: "Сир"},
+    {hr: "Mlijeko", ua: "Молоко"},
+    {hr: "Juha", ua: "Суп"},
+    {hr: "Riba", ua: "Риба"},
+    {hr: "Piletina", ua: "Курка"},
+    {hr: "Voće", ua: "Фрукти"},
+    {hr: "Povrće", ua: "Овочі"},
+    {hr: "Kava", ua: "Кава"},
+    {hr: "Čaj", ua: "Чай"},
+    {hr: "Sok", ua: "Сік"},
+    {hr: "Sladoled", ua: "Морозиво"},
+    {hr: "Torta", ua: "Торт"},
+    {hr: "Jaje", ua: "Яйце"},
+    {hr: "Meso", ua: "М’ясо"},
+    {hr: "Riba na žaru", ua: "Риба на грилі"},
+    {hr: "Palačinke", ua: "Млинці"},
+    {hr: "Keksi", ua: "Печиво"},
+    {hr: "Mlijčni proizvodi", ua: "Молочні продукти"},
+    {hr: "Salata", ua: "Салат"},
+    {hr: "Juha od povrća", ua: "Овочевий суп"},
+    {hr: "Pizza", ua: "Піца"},
+    {hr: "Hamburger", ua: "Гамбургер"},
+    {hr: "Kobasica", ua: "Ковбаса"}
+  ],
+
+  travel: [
+    {hr: "Gdje je WC?", ua: "Де туалет?"},
+    {hr: "Koliko to košta?", ua: "Скільки це коштує?"},
+    {hr: "Mogu li pomoći?", ua: "Можу я допомогти?"},
+    {hr: "Sretan put", ua: "Щасливої дороги"},
+    {hr: "Gdje mogu naći restoran?", ua: "Де я можу знайти ресторан?"},
+    {hr: "Koliko traje putovanje?", ua: "Скільки триває подорож?"},
+    {hr: "Koje je tvoje ime?", ua: "Як тебе звати?"},
+    {hr: "Ja sam umoran", ua: "Я втомився"},
+    {hr: "Moram ići", ua: "Мені треба йти"},
+    {hr: "Veselim se sutra", ua: "Радий завтрашньому дню"},
+    {hr: "Možeš li ponoviti?", ua: "Можеш повторити?"},
+    {hr: "Autobusna stanica", ua: "Автобусна зупинка"},
+    {hr: "Vlak", ua: "Поїзд"},
+    {hr: "Zračna luka", ua: "Аеропорт"},
+    {hr: "Karta", ua: "Квиток"},
+    {hr: "Hotel", ua: "Готель"},
+    {hr: "Recepcija", ua: "Ресепшн"},
+    {hr: "Taxi", ua: "Таксі"},
+    {hr: "Plaža", ua: "Пляж"},
+    {hr: "Autoput", ua: "Автострада"},
+    {hr: "Pješačka zona", ua: "Пішохідна зона"},
+    {hr: "Muzej", ua: "Музей"},
+    {hr: "Trgovina", ua: "Магазин"},
+    {hr: "Suvenir", ua: "Сувенір"},
+    {hr: "Vodič", ua: "Екскурсовод"}
+  ],
+
+  weather: [
+    {hr: "Sunce", ua: "Сонце"},
+    {hr: "Kiša", ua: "Дощ"},
+    {hr: "Snijeg", ua: "Сніг"},
+    {hr: "Vjetar", ua: "Вітер"},
+    {hr: "Oblaci", ua: "Хмари"},
+    {hr: "Hladno", ua: "Холодно"},
+    {hr: "Toplo", ua: "Тепло"},
+    {hr: "Jesen", ua: "Осінь"},
+    {hr: "Zima", ua: "Зима"},
+    {hr: "Ljeto", ua: "Літо"},
+    {hr: "Proljeće", ua: "Весна"},
+    {hr: "Grmljavina", ua: "Грім"},
+    {hr: "Magla", ua: "Туман"},
+    {hr: "Oluja", ua: "Буря"},
+    {hr: "Snježna oluja", ua: "Снігова буря"},
+    {hr: "Topli front", ua: "Теплий фронт"},
+    {hr: "Hladni front", ua: "Холодний фронт"},
+    {hr: "Temperatura", ua: "Температура"},
+    {hr: "Vlažnost", ua: "Вологість"},
+    {hr: "Oborine", ua: "Опади"},
+    {hr: "Sjena", ua: "Тінь"},
+    {hr: "Jutro", ua: "Ранок"},
+    {hr: "Večer", ua: "Вечір"},
+    {hr: "Mraz", ua: "Іній"},
+    {hr: "Puhati", ua: "Дути"}
+  ],
+
+  family: [
+    {hr: "Otac", ua: "Батько"},
+    {hr: "Majka", ua: "Мати"},
+    {hr: "Brat", ua: "Брат"},
+    {hr: "Sestra", ua: "Сестра"},
+    {hr: "Dijete", ua: "Дитина"},
+    {hr: "Baka", ua: "Бабуся"},
+    {hr: "Djed", ua: "Дідусь"},
+    {hr: "Rođak", ua: "Родич"},
+    {hr: "Obitelj", ua: "Сім’я"},
+    {hr: "Teta", ua: "Тітка"},
+    {hr: "Ujak", ua: "Дядько"},
+    {hr: "Kum", ua: "Хрещений"},
+    {hr: "Kuma", ua: "Хрещена"},
+    {hr: "Suprug", ua: "Чоловік"},
+    {hr: "Supruga", ua: "Дружина"},
+    {hr: "Dijete u dobi od 1 godine", ua: "Однорічна дитина"},
+    {hr: "Bebe", ua: "Діти"},
+    {hr: "Sin", ua: "Син"},
+    {hr: "Kći", ua: "Дочка"},
+    {hr: "Roditelji", ua: "Батьки"},
+    {hr: "Braća", ua: "Брати"},
+    {hr: "Sestre", ua: "Сестри"},
+    {hr: "Obiteljski dom", ua: "Сімейний дім"},
+    {hr: "Rođenje", ua: "Народження"},
+    {hr: "Obiteljska veza", ua: "Сімейний зв’язок"}
+  ],
+
+  professions: [
+    {hr: "Liječnik", ua: "Лікар"},
+    {hr: "Učitelj", ua: "Вчитель"},
+    {hr: "Inženjer", ua: "Інженер"},
+    {hr: "Policajac", ua: "Поліцейський"},
+    {hr: "Vatrogasac", ua: "Пожежник"},
+    {hr: "Kuhar", ua: "Кухар"},
+    {hr: "Student", ua: "Студент"},
+    {hr: "Umjetnik", ua: "Митець"},
+    {hr: "Pjevač", ua: "Співак"},
+    {hr: "Novinar", ua: "Журналіст"},
+    {hr: "Pilot", ua: "Пілот"},
+    {hr: "Vozač", ua: "Водій"},
+    {hr: "Frizer", ua: "Перукар"},
+    {hr: "Zubar", ua: "Стоматолог"},
+    {hr: "Glazbenik", ua: "Музикант"},
+    {hr: "Sportski trener", ua: "Тренер"},
+    {hr: "Programer", ua: "Програміст"},
+    {hr: "Fotograf", ua: "Фотограф"},
+    {hr: "Arhitekt", ua: "Архітектор"},
+    {hr: "Plesač", ua: "Танець"},
+    {hr: "Konobar", ua: "Офіціант"},
+    {hr: "Prodavač", ua: "Продавець"},
+    {hr: "Ljekarnik", ua: "Фармацевт"},
+    {hr: "Farmer", ua: "Фермер"},
+    {hr: "Mesar", ua: "М’ясник"}
+  ],
+
+  animals: [
+    {hr: "Pas", ua: "Собака"},
+    {hr: "Mačka", ua: "Кішка"},
+    {hr: "Ptica", ua: "Птах"},
+    {hr: "Konj", ua: "Кінь"},
+    {hr: "Riba", ua: "Риба"},
+    {hr: "Slon", ua: "Слон"},
+    {hr: "Zec", ua: "Кролик"},
+    {hr: "Krava", ua: "Корова"},
+    {hr: "Ovca", ua: "Вівця"},
+    {hr: "Koza", ua: "Коза"},
+        {hr: "Svinja", ua: "Свиня"},
+    {hr: "Medvjed", ua: "Ведмідь"},
+    {hr: "Vuk", ua: "Вовк"},
+    {hr: "Lisica", ua: "Лисиця"},
+    {hr: "Zlatna ribica", ua: "Золота рибка"},
+    {hr: "Pčela", ua: "Бджола"},
+    {hr: "Mrav", ua: "Мураха"},
+    {hr: "Zmija", ua: "Змія"},
+    {hr: "Žaba", ua: "Жаба"},
+    {hr: "Guska", ua: "Гуска"},
+    {hr: "Patka", ua: "Качка"},
+    {hr: "Ćuk", ua: "Сова"},
+    {hr: "Golub", ua: "Голуб"},
+    {hr: "Kornjača", ua: "Черепаха"},
+    {hr: "Rak", ua: "Рак"}
+  ],
+
+  clothes: [
+    {hr: "Košulja", ua: "Сорочка"},
+    {hr: "Hlače", ua: "Штани"},
+    {hr: "Haljina", ua: "Сукня"},
+    {hr: "Kaput", ua: "Пальто"},
+    {hr: "Čarape", ua: "Шкарпетки"},
+    {hr: "Cipele", ua: "Взуття"},
+    {hr: "Kapa", ua: "Кепка"},
+    {hr: "Rukavice", ua: "Рукавички"},
+    {hr: "Majica", ua: "Футболка"},
+    {hr: "Jakna", ua: "Куртка"},
+    {hr: "Papuče", ua: "Тапочки"},
+    {hr: "Suknja", ua: "Спідниця"},
+    {hr: "Šorc", ua: "Шорти"},
+    {hr: "Prsluk", ua: "Жилет"},
+    {hr: "Kravata", ua: "Краватка"},
+    {hr: "Šal", ua: "Шарф"},
+    {hr: "Bikini", ua: "Бікіні"},
+    {hr: "Donje rublje", ua: "Білизна"},
+    {hr: "Pajama", ua: "Піжама"},
+    {hr: "Čizme", ua: "Чоботи"},
+    {hr: "Džemper", ua: "Светр"},
+    {hr: "Rokavi", ua: "Рукави"},
+    {hr: "Kapa s ušima", ua: "Шапка з вушками"},
+    {hr: "Sportska odjeća", ua: "Спортивний одяг"},
+    {hr: "Papuce za plažu", ua: "В’єтнамки"}
+  ],
+
+  colors: [
+    {hr: "Crvena", ua: "Червоний"},
+    {hr: "Plava", ua: "Синій"},
+    {hr: "Zelena", ua: "Зелений"},
+    {hr: "Žuta", ua: "Жовтий"},
+    {hr: "Crna", ua: "Чорний"},
+    {hr: "Bijela", ua: "Білий"},
+    {hr: "Smeđa", ua: "Коричневий"},
+    {hr: "Narančasta", ua: "Помаранчевий"},
+    {hr: "Ružičasta", ua: "Рожевий"},
+    {hr: "Ljubičasta", ua: "Фіолетовий"},
+    {hr: "Siva", ua: "Сірий"},
+    {hr: "Tirkizna", ua: "Бірюзовий"},
+    {hr: "Zlatna", ua: "Золотий"},
+    {hr: "Srebrna", ua: "Срібний"},
+    {hr: "Maslinasta", ua: "Оливковий"},
+    {hr: "Bež", ua: "Бежевий"},
+    {hr: "Krem", ua: "Кремовий"},
+    {hr: "Bordo", ua: "Бордо"},
+    {hr: "Tamnoplava", ua: "Темно-синій"},
+    {hr: "Svijetlozelena", ua: "Світло-зелений"},
+    {hr: "Oranž", ua: "Яскраво-помаранчевий"},
+    {hr: "Ljuska", ua: "Шкаралупа"},
+    {hr: "Kobalt", ua: "Кобальт"},
+    {hr: "Cijan", ua: "Ціан"},
+    {hr: "Indigo", ua: "Індиго"}
+  ],
+
+  school: [
+    {hr: "Knjiga", ua: "Книга"},
+    {hr: "Olovka", ua: "Олівець"},
+    {hr: "Bilježnica", ua: "Зошит"},
+    {hr: "Učitelj", ua: "Вчитель"},
+    {hr: "Učenik", ua: "Учень"},
+    {hr: "Škola", ua: "Школа"},
+    {hr: "Stolica", ua: "Стілець"},
+    {hr: "Ploča", ua: "Дошка"},
+    {hr: "Ruksak", ua: "Рюкзак"},
+    {hr: "Kreda", ua: "Крейда"},
+    {hr: "Školska torba", ua: "Шкільна сумка"},
+    {hr: "Geometrijski pribor", ua: "Геометричний набір"},
+    {hr: "Bilježnica s crtama", ua: "Зошит у лінійку"},
+    {hr: "Bilježnica bez crt", ua: "Зошит у клітинку"},
+    {hr: "Olovka s gumicom", ua: "Олівець з гумкою"},
+    {hr: "Flomaster", ua: "Фломастер"},
+    {hr: "Boje", ua: "Олівці/Фарби"},
+    {hr: "Školski pribor", ua: "Шкільне приладдя"},
+    {hr: "Pisaći stol", ua: "Письмовий стіл"},
+    {hr: "Knjigovodstvo", ua: "Бухгалтерія"},
+    {hr: "Rokovnik", ua: "Щоденник"},
+    {hr: "Papir", ua: "Папір"},
+    {hr: "Knjiga zadataka", ua: "Збірник завдань"},
+    {hr: "Matematika", ua: "Математика"},
+    {hr: "Likovna kultura", ua: "Образотворче мистецтво"},
+    {hr: "Glazbeni instrument", ua: "Музичний інструмент"}
   ]
 };
 
@@ -36,15 +303,53 @@ function changeDirection(){ translationDirection = document.getElementById('tran
 function changeLevel(){ level=parseInt(document.getElementById('level').value); document.getElementById('word-card').textContent=''; document.getElementById('options').innerHTML=''; }
 
 // Вибір наступного слова
-function nextWord(){
-  clearInterval(timer);
-  timeLeft=15; updateTimer();
 
-  const wordsArray=categories[currentCategory];
-  if(usedWords.length===wordsArray.length){ endGame(); return; }
+// ====== Озвучка слова ======
+function speakWord(word) {
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = 'hr-HR'; // хорватська мова
+    window.speechSynthesis.speak(utterance);
+  } else {
+    console.log('Oзвучка не підтримується у цьому браузері');
+  }
+}
+
+// ====== Зміна категорії, напрямку та рівня ======
+function changeCategory() {
+  currentCategory = document.getElementById('category').value;
+  usedWords = [];
+  updateProgress();
+  document.getElementById('word-card').textContent = 'Натисніть "Нова гра"';
+  document.getElementById('options').innerHTML = '';
+}
+
+function changeDirection() {
+  translationDirection = document.getElementById('translation-direction').value;
+  document.getElementById('word-card').textContent = 'Натисніть "Нова гра"';
+  document.getElementById('options').innerHTML = '';
+}
+
+function changeLevel() {
+  level = parseInt(document.getElementById('level').value);
+  document.getElementById('word-card').textContent = 'Натисніть "Нова гра"';
+  document.getElementById('options').innerHTML = '';
+}
+
+// ====== Наступне слово ======
+function nextWord() {
+  clearInterval(timer);
+  timeLeft = 15;
+  updateTimer();
+
+  const wordsArray = categories[currentCategory];
+  if (usedWords.length === wordsArray.length) {
+    endGame();
+    return;
+  }
 
   let randomIndex;
-    do {
+  do {
     randomIndex = Math.floor(Math.random() * wordsArray.length);
   } while (usedWords.includes(randomIndex));
 
@@ -62,15 +367,16 @@ function nextWord(){
   startTimer();
 }
 
-// Створення варіантів відповіді
+// ====== Створення варіантів відповіді ======
 function createOptions() {
   const optionsContainer = document.getElementById('options');
+
   let optionsCount = level === 1 ? 2 : level === 2 ? 3 : 4;
 
   const allWords = [].concat(...Object.values(categories));
   const answersSet = new Set();
-  let correctAnswer = translationDirection === 'hr-to-ua' ? currentWord.ua : currentWord.hr;
-  let questionWord = translationDirection === 'hr-to-ua' ? currentWord.hr : currentWord.ua;
+  const correctAnswer = translationDirection === 'hr-to-ua' ? currentWord.ua : currentWord.hr;
+  const questionWord = translationDirection === 'hr-to-ua' ? currentWord.hr : currentWord.ua;
   document.getElementById('word-card').textContent = questionWord;
   answersSet.add(correctAnswer);
 
@@ -91,7 +397,7 @@ function createOptions() {
   });
 }
 
-// Вибір відповіді
+// ====== Вибір відповіді ======
 function selectAnswer(btn, correctAnswer) {
   document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
 
@@ -116,7 +422,7 @@ function selectAnswer(btn, correctAnswer) {
   setTimeout(() => nextWord(), 1000);
 }
 
-// Таймер
+// ====== Таймер ======
 function startTimer() {
   timer = setInterval(() => {
     timeLeft--;
@@ -140,14 +446,14 @@ function updateTimer() {
   document.getElementById('timer-bar').style.width = width + "%";
 }
 
-// Прогрес
+// ====== Прогрес ======
 function updateProgress() {
   const total = categories[currentCategory].length;
   const progressPercent = (usedWords.length / total) * 100;
   document.getElementById('progress-bar').style.width = progressPercent + "%";
 }
 
-// Кінець гри
+// ====== Кінець гри ======
 function endGame() {
   clearInterval(timer);
   if (score > highscore) highscore = score;
@@ -161,7 +467,7 @@ function endGame() {
   document.getElementById('progress-bar').style.width = "100%";
 }
 
-// Нова гра
+// ====== Нова гра ======
 function startNewGame() {
   score = 0;
   combo = 0;
@@ -172,7 +478,7 @@ function startNewGame() {
   nextWord();
 }
 
-// Анімація слова
+// ====== Анімація слова ======
 function showWordWithAnimation(word) {
   const wordCard = document.getElementById('word-card');
   wordCard.style.opacity = 0;
@@ -182,5 +488,6 @@ function showWordWithAnimation(word) {
     wordCard.textContent = word;
     wordCard.style.opacity = 1;
     wordCard.style.transform = 'translateY(0)';
+    speakWord(word); // озвучка слова
   }, 300);
 }
