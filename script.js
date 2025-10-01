@@ -308,10 +308,19 @@ function changeLevel(){ level=parseInt(document.getElementById('level').value); 
 function speakWord(word) {
   if ('speechSynthesis' in window) {
     const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = 'hr-HR'; // хорватська мова
+    // Встановлюємо мову хорватську
+    utterance.lang = 'hr-HR';
+    
+    // Опціонально: обрати конкретний голос серед доступних
+    const voices = window.speechSynthesis.getVoices();
+    const hrVoice = voices.find(voice => voice.lang === 'hr-HR');
+    if (hrVoice) {
+      utterance.voice = hrVoice;
+    }
+    
     window.speechSynthesis.speak(utterance);
   } else {
-    console.log('Oзвучка не підтримується у цьому браузері');
+    console.log('SpeechSynthesis не підтримується в цьому браузері.');
   }
 }
 
@@ -488,6 +497,8 @@ function showWordWithAnimation(word) {
     wordCard.textContent = word;
     wordCard.style.opacity = 1;
     wordCard.style.transform = 'translateY(0)';
-    speakWord(word); // озвучка слова
+
+    // озвучка слова
+    speakWord(word);
   }, 300);
 }
