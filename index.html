@@ -27,8 +27,6 @@
       </select>
     </div>
 
-
-
     <div class="select-row">
       <label for="translation-direction">Напрямок перекладу:</label>
       <select id="translation-direction" onchange="changeDirection()">
@@ -37,16 +35,7 @@
       </select>
     </div>
 
-    <div class="select-row">
-      <label for="level">Рівень складності:</label>
-      <select id="level" onchange="changeLevel()">
-        <option value="1">Простий (2 варіанти)</option>
-        <option value="2">Середній (3 варіанти)</option>
-        <option value="3">Складний (4 варіанти)</option>
-      </select>
-    </div>
-
-    <div id="word-card" class="word-card"></div>
+    <div id="word-card" class="word-card">Натисніть "Наступне слово"</div>
     <div id="options" class="options"></div>
 
     <button onclick="startNewGame()">Нова гра</button>
@@ -72,7 +61,6 @@
     <audio id="sound-wrong" src="wrong.mp3"></audio>
   </div>
 
-  
   <script src="script.js"></script>
 </body>
 </html>

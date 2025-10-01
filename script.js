@@ -131,7 +131,7 @@ const categories = {
 let currentWord = {};
 let score = 0;
 let combo = 0;
-let level = 1; // 1 - простий, 2 - середній, 3 - складний
+let level = 1;
 let timer;
 let timeLeft = 15;
 let highscore = 0;
@@ -142,28 +142,24 @@ let translationDirection = 'hr-to-ua';
 const soundCorrect = document.getElementById('sound-correct');
 const soundWrong = document.getElementById('sound-wrong');
 
-// ====== Функції зміни категорії, напрямку та рівня ======
+// ====== Функції ======
 function changeCategory() {
   currentCategory = document.getElementById('category').value;
   usedWords = [];
   updateProgress();
-  document.getElementById('word-card').textContent = 'Натисніть "Нова гра"';
-  document.getElementById('options').innerHTML = '';
+  nextWord();
 }
 
 function changeDirection() {
   translationDirection = document.getElementById('translation-direction').value;
-  document.getElementById('word-card').textContent = 'Натисніть "Нова гра"';
-  document.getElementById('options').innerHTML = '';
+  nextWord();
 }
 
 function changeLevel() {
   level = parseInt(document.getElementById('level').value);
-  document.getElementById('word-card').textContent = 'Натисніть "Нова гра"';
-  document.getElementById('options').innerHTML = '';
+  nextWord();
 }
 
-// ====== Функція вибору наступного слова ======
 function nextWord() {
   clearInterval(timer);
   timeLeft = 15;
@@ -188,25 +184,27 @@ function nextWord() {
   document.getElementById('options').innerHTML = '';
 
   let questionWord = translationDirection === 'hr-to-ua' ? currentWord.hr : currentWord.ua;
-  showWordWithAnimation(questionWord);
+  showWordWithAnimation(questionWord); // Використовуємо анімацію
 
   createOptions();
   startTimer();
 }
 
+function updateProgress() {
+  const total = categories[currentCategory].length;
+  const progressPercent = (usedWords.length / total) * 100;
+  document.getElementById('progress-bar').style.width = progressPercent + "%";
+}
 
-// ====== Функція створення варіантів відповіді ======
 function createOptions() {
   const optionsContainer = document.getElementById('options');
+  let optionsCount = 4;
+  if (level === 1) optionsCount = 2;
+  else if (level === 2) optionsCount = 3;
 
-  // Встановлюємо кількість варіантів відповідно до рівня
-  let optionsCount = 4; // складний
-  if (level === 1) optionsCount = 2; // простий
-  else if (level === 2) optionsCount = 3; // середній
-
-  
   const allWords = [].concat(...Object.values(categories));
   const answersSet = new Set();
+
   let correctAnswer = translationDirection === 'hr-to-ua' ? currentWord.ua : currentWord.hr;
   let questionWord = translationDirection === 'hr-to-ua' ? currentWord.hr : currentWord.ua;
   document.getElementById('word-card').textContent = questionWord;
@@ -229,7 +227,6 @@ function createOptions() {
   });
 }
 
-// ====== Вибір відповіді ======
 function selectAnswer(btn, correctAnswer) {
   document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
 
@@ -251,10 +248,10 @@ function selectAnswer(btn, correctAnswer) {
   document.getElementById('score').textContent = `Рахунок: ${score}`;
   document.getElementById('combo').textContent = `Серія правильних відповідей: ${combo}`;
 
+  // Через 1 секунду автоматично показати наступне слово
   setTimeout(() => nextWord(), 1000);
 }
 
-// ====== Таймер ======
 function startTimer() {
   timer = setInterval(() => {
     timeLeft--;
@@ -278,14 +275,6 @@ function updateTimer() {
   document.getElementById('timer-bar').style.width = width + "%";
 }
 
-// ====== Прогрес ======
-function updateProgress() {
-  const total = categories[currentCategory].length;
-  const progressPercent = (usedWords.length / total) * 100;
-  document.getElementById('progress-bar').style.width = progressPercent + "%";
-}
-
-// ====== Кінець гри ======
 function endGame() {
   clearInterval(timer);
   if (score > highscore) highscore = score;
@@ -299,7 +288,6 @@ function endGame() {
   document.getElementById('progress-bar').style.width = "100%";
 }
 
-// ====== Нова гра ======
 function startNewGame() {
   score = 0;
   combo = 0;
@@ -307,18 +295,19 @@ function startNewGame() {
   document.getElementById('score').textContent = `Рахунок: ${score}`;
   document.getElementById('combo').textContent = `Серія правильних відповідей: ${combo}`;
   document.getElementById('final-result').textContent = '';
-  nextWord();
+  nextWord(); // Гра стартує тільки після натискання кнопки
 }
 
-// ====== Анімація слова ======
 function showWordWithAnimation(word) {
   const wordCard = document.getElementById('word-card');
+  // Зникає старе слово
   wordCard.style.opacity = 0;
   wordCard.style.transform = 'translateY(-20px)';
   
   setTimeout(() => {
     wordCard.textContent = word;
+    // Появляється нове слово
     wordCard.style.opacity = 1;
     wordCard.style.transform = 'translateY(0)';
-  }, 300);
+  }, 300); // 300 мс — тривалість анімації
 }
