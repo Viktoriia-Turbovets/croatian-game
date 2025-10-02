@@ -1,516 +1,213 @@
-// Змінні гри
-let currentWord = {};
-let score = 0;
-let combo = 0;
-let level = 1;
-let timer;
-let timeLeft = 15;
-let highscore = 0;
-let currentCategory = 'greetings';
-let usedWords = [];
-let translationDirection = 'hr-to-ua';
+let token = null; // JWT токен
+let transactions = [];
 
-const soundCorrect = document.getElementById('sound-correct');
-const soundWrong = document.getElementById('sound-wrong');
+const balanceEl = document.getElementById('balance');
+const incomeSummary = document.getElementById('incomeSummary');
+const expenseSummary = document.getElementById('expenseSummary');
+const transactionsList = document.getElementById('transactionsList');
+const transactionForm = document.getElementById('transactionForm');
+const descriptionInput = document.getElementById('description');
+const amountInput = document.getElementById('amount');
+const typeInput = document.getElementById('type');
+const categoryInput = document.getElementById('category');
+const filterType = document.getElementById('filterType');
+const filterCategory = document.getElementById('filterCategory');
+const searchInput = document.getElementById('searchInput');
+const clearAllBtn = document.getElementById('clearAllBtn');
+const exportBtn = document.getElementById('exportBtn');
+const importFile = document.getElementById('importFile');
+const themeToggle = document.getElementById('themeToggle');
+const main = document.querySelector('main');
 
-// Дані для категорій
-const categories = {
-  greetings: [
-    {hr: "Dobar dan", ua: "Добрий день"},
-    {hr: "Hvala", ua: "Дякую"},
-    {hr: "Molim", ua: "Будь ласка"},
-    {hr: "Da", ua: "Так"},
-    {hr: "Ne", ua: "Ні"},
-    {hr: "Oprostite", ua: "Вибачте"},
-    {hr: "Izvolite", ua: "Ось, будь ласка"},
-    {hr: "Zdravo", ua: "Привіт"},
-    {hr: "Doviđenja", ua: "До побачення"},
-    {hr: "Laku noć", ua: "На добраніч"},
-    {hr: "Dobro jutro", ua: "Доброго ранку"},
-    {hr: "Kako si?", ua: "Як ти?"},
-    {hr: "Što radiš?", ua: "Що робиш?"},
-    {hr: "Vidimo se", ua: "Побачимося"},
-    {hr: "Ugodan dan", ua: "Гарного дня"},
-    {hr: "Sve najbolje", ua: "Усього найкращого"},
-    {hr: "Sretno", ua: "Успіху"},
-    {hr: "Dobrodošli", ua: "Ласкаво просимо"},
-    {hr: "Čestitam", ua: "Вітаю"},
-    {hr: "Kako ste?", ua: "Як ви?"},
-    {hr: "Drago mi je", ua: "Радий зустрічі"},
-    {hr: "Lijepo vas je vidjeti", ua: "Приємно вас бачити"},
-    {hr: "Pozdrav", ua: "Вітання"},
-    {hr: "Dobar večer", ua: "Добрий вечір"},
-    {hr: "Prijatno", ua: "Смачного"}
-  ],
-
-  food: [
-    {hr: "Voda", ua: "Вода"},
-    {hr: "Kruh", ua: "Хліб"},
-    {hr: "Sir", ua: "Сир"},
-    {hr: "Mlijeko", ua: "Молоко"},
-    {hr: "Juha", ua: "Суп"},
-    {hr: "Riba", ua: "Риба"},
-    {hr: "Piletina", ua: "Курка"},
-    {hr: "Voće", ua: "Фрукти"},
-    {hr: "Povrće", ua: "Овочі"},
-    {hr: "Kava", ua: "Кава"},
-    {hr: "Čaj", ua: "Чай"},
-    {hr: "Sok", ua: "Сік"},
-    {hr: "Sladoled", ua: "Морозиво"},
-    {hr: "Torta", ua: "Торт"},
-    {hr: "Jaje", ua: "Яйце"},
-    {hr: "Meso", ua: "М’ясо"},
-    {hr: "Riba na žaru", ua: "Риба на грилі"},
-    {hr: "Palačinke", ua: "Млинці"},
-    {hr: "Keksi", ua: "Печиво"},
-    {hr: "Mlijčni proizvodi", ua: "Молочні продукти"},
-    {hr: "Salata", ua: "Салат"},
-    {hr: "Juha od povrća", ua: "Овочевий суп"},
-    {hr: "Pizza", ua: "Піца"},
-    {hr: "Hamburger", ua: "Гамбургер"},
-    {hr: "Kobasica", ua: "Ковбаса"}
-  ],
-
-  travel: [
-    {hr: "Gdje je WC?", ua: "Де туалет?"},
-    {hr: "Koliko to košta?", ua: "Скільки це коштує?"},
-    {hr: "Mogu li pomoći?", ua: "Можу я допомогти?"},
-    {hr: "Sretan put", ua: "Щасливої дороги"},
-    {hr: "Gdje mogu naći restoran?", ua: "Де я можу знайти ресторан?"},
-    {hr: "Koliko traje putovanje?", ua: "Скільки триває подорож?"},
-    {hr: "Koje je tvoje ime?", ua: "Як тебе звати?"},
-    {hr: "Ja sam umoran", ua: "Я втомився"},
-    {hr: "Moram ići", ua: "Мені треба йти"},
-    {hr: "Veselim se sutra", ua: "Радий завтрашньому дню"},
-    {hr: "Možeš li ponoviti?", ua: "Можеш повторити?"},
-    {hr: "Autobusna stanica", ua: "Автобусна зупинка"},
-    {hr: "Vlak", ua: "Поїзд"},
-    {hr: "Zračna luka", ua: "Аеропорт"},
-    {hr: "Karta", ua: "Квиток"},
-    {hr: "Hotel", ua: "Готель"},
-    {hr: "Recepcija", ua: "Ресепшн"},
-    {hr: "Taxi", ua: "Таксі"},
-    {hr: "Plaža", ua: "Пляж"},
-    {hr: "Autoput", ua: "Автострада"},
-    {hr: "Pješačka zona", ua: "Пішохідна зона"},
-    {hr: "Muzej", ua: "Музей"},
-    {hr: "Trgovina", ua: "Магазин"},
-    {hr: "Suvenir", ua: "Сувенір"},
-    {hr: "Vodič", ua: "Екскурсовод"}
-  ],
-
-  weather: [
-    {hr: "Sunce", ua: "Сонце"},
-    {hr: "Kiša", ua: "Дощ"},
-    {hr: "Snijeg", ua: "Сніг"},
-    {hr: "Vjetar", ua: "Вітер"},
-    {hr: "Oblaci", ua: "Хмари"},
-    {hr: "Hladno", ua: "Холодно"},
-    {hr: "Toplo", ua: "Тепло"},
-    {hr: "Jesen", ua: "Осінь"},
-    {hr: "Zima", ua: "Зима"},
-    {hr: "Ljeto", ua: "Літо"},
-    {hr: "Proljeće", ua: "Весна"},
-    {hr: "Grmljavina", ua: "Грім"},
-    {hr: "Magla", ua: "Туман"},
-    {hr: "Oluja", ua: "Буря"},
-    {hr: "Snježna oluja", ua: "Снігова буря"},
-    {hr: "Topli front", ua: "Теплий фронт"},
-    {hr: "Hladni front", ua: "Холодний фронт"},
-    {hr: "Temperatura", ua: "Температура"},
-    {hr: "Vlažnost", ua: "Вологість"},
-    {hr: "Oborine", ua: "Опади"},
-    {hr: "Sjena", ua: "Тінь"},
-    {hr: "Jutro", ua: "Ранок"},
-    {hr: "Večer", ua: "Вечір"},
-    {hr: "Mraz", ua: "Іній"},
-    {hr: "Puhati", ua: "Дути"}
-  ],
-
-  family: [
-    {hr: "Otac", ua: "Батько"},
-    {hr: "Majka", ua: "Мати"},
-    {hr: "Brat", ua: "Брат"},
-    {hr: "Sestra", ua: "Сестра"},
-    {hr: "Dijete", ua: "Дитина"},
-    {hr: "Baka", ua: "Бабуся"},
-    {hr: "Djed", ua: "Дідусь"},
-    {hr: "Rođak", ua: "Родич"},
-    {hr: "Obitelj", ua: "Сім’я"},
-    {hr: "Teta", ua: "Тітка"},
-    {hr: "Ujak", ua: "Дядько"},
-    {hr: "Kum", ua: "Хрещений"},
-    {hr: "Kuma", ua: "Хрещена"},
-    {hr: "Suprug", ua: "Чоловік"},
-    {hr: "Supruga", ua: "Дружина"},
-    {hr: "Dijete u dobi od 1 godine", ua: "Однорічна дитина"},
-    {hr: "Bebe", ua: "Діти"},
-    {hr: "Sin", ua: "Син"},
-    {hr: "Kći", ua: "Дочка"},
-    {hr: "Roditelji", ua: "Батьки"},
-    {hr: "Braća", ua: "Брати"},
-    {hr: "Sestre", ua: "Сестри"},
-    {hr: "Obiteljski dom", ua: "Сімейний дім"},
-    {hr: "Rođenje", ua: "Народження"},
-    {hr: "Obiteljska veza", ua: "Сімейний зв’язок"}
-  ],
-
-  professions: [
-    {hr: "Liječnik", ua: "Лікар"},
-    {hr: "Učitelj", ua: "Вчитель"},
-    {hr: "Inženjer", ua: "Інженер"},
-    {hr: "Policajac", ua: "Поліцейський"},
-    {hr: "Vatrogasac", ua: "Пожежник"},
-    {hr: "Kuhar", ua: "Кухар"},
-    {hr: "Student", ua: "Студент"},
-    {hr: "Umjetnik", ua: "Митець"},
-    {hr: "Pjevač", ua: "Співак"},
-    {hr: "Novinar", ua: "Журналіст"},
-    {hr: "Pilot", ua: "Пілот"},
-    {hr: "Vozač", ua: "Водій"},
-    {hr: "Frizer", ua: "Перукар"},
-    {hr: "Zubar", ua: "Стоматолог"},
-    {hr: "Glazbenik", ua: "Музикант"},
-    {hr: "Sportski trener", ua: "Тренер"},
-    {hr: "Programer", ua: "Програміст"},
-    {hr: "Fotograf", ua: "Фотограф"},
-    {hr: "Arhitekt", ua: "Архітектор"},
-    {hr: "Plesač", ua: "Танець"},
-    {hr: "Konobar", ua: "Офіціант"},
-    {hr: "Prodavač", ua: "Продавець"},
-    {hr: "Ljekarnik", ua: "Фармацевт"},
-    {hr: "Farmer", ua: "Фермер"},
-    {hr: "Mesar", ua: "М’ясник"}
-  ],
-
-  animals: [
-    {hr: "Pas", ua: "Собака"},
-    {hr: "Mačka", ua: "Кішка"},
-    {hr: "Ptica", ua: "Птах"},
-    {hr: "Konj", ua: "Кінь"},
-    {hr: "Riba", ua: "Риба"},
-    {hr: "Slon", ua: "Слон"},
-    {hr: "Zec", ua: "Кролик"},
-    {hr: "Krava", ua: "Корова"},
-    {hr: "Ovca", ua: "Вівця"},
-    {hr: "Koza", ua: "Коза"},
-        {hr: "Svinja", ua: "Свиня"},
-    {hr: "Medvjed", ua: "Ведмідь"},
-    {hr: "Vuk", ua: "Вовк"},
-    {hr: "Lisica", ua: "Лисиця"},
-    {hr: "Zlatna ribica", ua: "Золота рибка"},
-    {hr: "Pčela", ua: "Бджола"},
-    {hr: "Mrav", ua: "Мураха"},
-    {hr: "Zmija", ua: "Змія"},
-    {hr: "Žaba", ua: "Жаба"},
-    {hr: "Guska", ua: "Гуска"},
-    {hr: "Patka", ua: "Качка"},
-    {hr: "Ćuk", ua: "Сова"},
-    {hr: "Golub", ua: "Голуб"},
-    {hr: "Kornjača", ua: "Черепаха"},
-    {hr: "Rak", ua: "Рак"}
-  ],
-
-  clothes: [
-    {hr: "Košulja", ua: "Сорочка"},
-    {hr: "Hlače", ua: "Штани"},
-    {hr: "Haljina", ua: "Сукня"},
-    {hr: "Kaput", ua: "Пальто"},
-    {hr: "Čarape", ua: "Шкарпетки"},
-    {hr: "Cipele", ua: "Взуття"},
-    {hr: "Kapa", ua: "Кепка"},
-    {hr: "Rukavice", ua: "Рукавички"},
-    {hr: "Majica", ua: "Футболка"},
-    {hr: "Jakna", ua: "Куртка"},
-    {hr: "Papuče", ua: "Тапочки"},
-    {hr: "Suknja", ua: "Спідниця"},
-    {hr: "Šorc", ua: "Шорти"},
-    {hr: "Prsluk", ua: "Жилет"},
-    {hr: "Kravata", ua: "Краватка"},
-    {hr: "Šal", ua: "Шарф"},
-    {hr: "Bikini", ua: "Бікіні"},
-    {hr: "Donje rublje", ua: "Білизна"},
-    {hr: "Pajama", ua: "Піжама"},
-    {hr: "Čizme", ua: "Чоботи"},
-    {hr: "Džemper", ua: "Светр"},
-    {hr: "Rokavi", ua: "Рукави"},
-    {hr: "Kapa s ušima", ua: "Шапка з вушками"},
-    {hr: "Sportska odjeća", ua: "Спортивний одяг"},
-    {hr: "Papuce za plažu", ua: "В’єтнамки"}
-  ],
-
-  colors: [
-    {hr: "Crvena", ua: "Червоний"},
-    {hr: "Plava", ua: "Синій"},
-    {hr: "Zelena", ua: "Зелений"},
-    {hr: "Žuta", ua: "Жовтий"},
-    {hr: "Crna", ua: "Чорний"},
-    {hr: "Bijela", ua: "Білий"},
-    {hr: "Smeđa", ua: "Коричневий"},
-    {hr: "Narančasta", ua: "Помаранчевий"},
-    {hr: "Ružičasta", ua: "Рожевий"},
-    {hr: "Ljubičasta", ua: "Фіолетовий"},
-    {hr: "Siva", ua: "Сірий"},
-    {hr: "Tirkizna", ua: "Бірюзовий"},
-    {hr: "Zlatna", ua: "Золотий"},
-    {hr: "Srebrna", ua: "Срібний"},
-    {hr: "Maslinasta", ua: "Оливковий"},
-    {hr: "Bež", ua: "Бежевий"},
-    {hr: "Krem", ua: "Кремовий"},
-    {hr: "Bordo", ua: "Бордо"},
-    {hr: "Tamnoplava", ua: "Темно-синій"},
-    {hr: "Svijetlozelena", ua: "Світло-зелений"},
-    {hr: "Oranž", ua: "Яскраво-помаранчевий"},
-    {hr: "Ljuska", ua: "Шкаралупа"},
-    {hr: "Kobalt", ua: "Кобальт"},
-    {hr: "Cijan", ua: "Ціан"},
-    {hr: "Indigo", ua: "Індиго"}
-  ],
-
-  school: [
-    {hr: "Knjiga", ua: "Книга"},
-    {hr: "Olovka", ua: "Олівець"},
-    {hr: "Bilježnica", ua: "Зошит"},
-    {hr: "Učitelj", ua: "Вчитель"},
-    {hr: "Učenik", ua: "Учень"},
-    {hr: "Škola", ua: "Школа"},
-    {hr: "Stolica", ua: "Стілець"},
-    {hr: "Ploča", ua: "Дошка"},
-    {hr: "Ruksak", ua: "Рюкзак"},
-    {hr: "Kreda", ua: "Крейда"},
-    {hr: "Školska torba", ua: "Шкільна сумка"},
-    {hr: "Geometrijski pribor", ua: "Геометричний набір"},
-    {hr: "Bilježnica s crtama", ua: "Зошит у лінійку"},
-    {hr: "Bilježnica bez crt", ua: "Зошит у клітинку"},
-    {hr: "Olovka s gumicom", ua: "Олівець з гумкою"},
-    {hr: "Flomaster", ua: "Фломастер"},
-    {hr: "Boje", ua: "Олівці/Фарби"},
-    {hr: "Školski pribor", ua: "Шкільне приладдя"},
-    {hr: "Pisaći stol", ua: "Письмовий стіл"},
-    {hr: "Knjigovodstvo", ua: "Бухгалтерія"},
-    {hr: "Rokovnik", ua: "Щоденник"},
-    {hr: "Papir", ua: "Папір"},
-    {hr: "Knjiga zadataka", ua: "Збірник завдань"},
-    {hr: "Matematika", ua: "Математика"},
-    {hr: "Likovna kultura", ua: "Образотворче мистецтво"},
-    {hr: "Glazbeni instrument", ua: "Музичний інструмент"}
-  ]
+const categoryColors = {
+  salary:'#27ae60',
+  food:'#e67e22',
+  entertainment:'#8e44ad',
+  shopping:'#2980b9',
+  other:'#7f8c8d'
 };
 
-// Функції зміни категорії, напрямку та рівня
-function changeCategory(){ currentCategory = document.getElementById('category').value; usedWords=[]; updateProgress(); document.getElementById('word-card').textContent=''; document.getElementById('options').innerHTML=''; }
-function changeDirection(){ translationDirection = document.getElementById('translation-direction').value; document.getElementById('word-card').textContent=''; document.getElementById('options').innerHTML=''; }
-function changeLevel(){ level=parseInt(document.getElementById('level').value); document.getElementById('word-card').textContent=''; document.getElementById('options').innerHTML=''; }
+let darkMode = false;
 
-// Вибір наступного слова
+// ----- АУТЕНТИФІКАЦІЯ -----
 
-// ====== Озвучка слова ======
-function speakWord(word) {
-  // Створюємо об’єкт озвучки
-  const utterance = new SpeechSynthesisUtterance(word);
-  utterance.lang = 'hr-HR'; // основна мова - хорватська
-
-  // Функція для вибору голосу після завантаження
-  function setVoice() {
-    const voices = speechSynthesis.getVoices();
-    
-    // Шукаємо голос з хорватською мовою
-    const hrVoice = voices.find(v => v.lang.includes('hr'));
-    
-    // Встановлюємо голос, якщо є, інакше використовуємо перший доступний
-    utterance.voice = hrVoice || voices[0];
-    
-    // Відтворюємо озвучку
-    speechSynthesis.speak(utterance);
-  }
-
-  // Деякі браузери завантажують голоси асинхронно
-  if (speechSynthesis.getVoices().length === 0) {
-    speechSynthesis.onvoiceschanged = setVoice;
-  } else {
-    setVoice();
-  }
-}
-
-// Викликати так, коли показуємо нове слово
-// Наприклад:
-speakWord(currentWord.hr); // якщо питання хорватське слово
-
-// ====== Зміна категорії, напрямку та рівня ======
-function changeCategory() {
-  currentCategory = document.getElementById('category').value;
-  usedWords = [];
-  updateProgress();
-  document.getElementById('word-card').textContent = 'Натисніть "Нова гра"';
-  document.getElementById('options').innerHTML = '';
-}
-
-function changeDirection() {
-  translationDirection = document.getElementById('translation-direction').value;
-  document.getElementById('word-card').textContent = 'Натисніть "Нова гра"';
-  document.getElementById('options').innerHTML = '';
-}
-
-function changeLevel() {
-  level = parseInt(document.getElementById('level').value);
-  document.getElementById('word-card').textContent = 'Натисніть "Нова гра"';
-  document.getElementById('options').innerHTML = '';
-}
-
-// ====== Наступне слово ======
-function nextWord() {
-  clearInterval(timer);
-  timeLeft = 15;
-  updateTimer();
-
-  const wordsArray = categories[currentCategory];
-  if (usedWords.length === wordsArray.length) {
-    endGame();
-    return;
-  }
-
-  let randomIndex;
-  do {
-    randomIndex = Math.floor(Math.random() * wordsArray.length);
-  } while (usedWords.includes(randomIndex));
-
-  currentWord = wordsArray[randomIndex];
-  usedWords.push(randomIndex);
-  updateProgress();
-
-  document.getElementById('feedback').textContent = '';
-  document.getElementById('options').innerHTML = '';
-
-  let questionWord = translationDirection === 'hr-to-ua' ? currentWord.hr : currentWord.ua;
-  showWordWithAnimation(questionWord);
-
-  createOptions();
-  startTimer();
-}
-
-// ====== Створення варіантів відповіді ======
-function createOptions() {
-  const optionsContainer = document.getElementById('options');
-
-  let optionsCount = level === 1 ? 2 : level === 2 ? 3 : 4;
-
-  const allWords = [].concat(...Object.values(categories));
-  const answersSet = new Set();
-  const correctAnswer = translationDirection === 'hr-to-ua' ? currentWord.ua : currentWord.hr;
-  const questionWord = translationDirection === 'hr-to-ua' ? currentWord.hr : currentWord.ua;
-  document.getElementById('word-card').textContent = questionWord;
-  answersSet.add(correctAnswer);
-
-  while (answersSet.size < optionsCount) {
-    const randomWord = allWords[Math.floor(Math.random() * allWords.length)];
-    const answer = translationDirection === 'hr-to-ua' ? randomWord.ua : randomWord.hr;
-    answersSet.add(answer);
-  }
-
-  const shuffled = Array.from(answersSet).sort(() => Math.random() - 0.5);
-  shuffled.forEach((answer, index) => {
-    const btn = document.createElement('button');
-    btn.textContent = answer;
-    btn.classList.add('option-btn');
-    btn.onclick = () => selectAnswer(btn, correctAnswer);
-    optionsContainer.appendChild(btn);
-    setTimeout(() => btn.classList.add('show'), index * 100);
+async function register(name,email,password){
+  const res = await fetch('http://localhost:5000/api/auth/register',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({name,email,password})
   });
+  return res.json();
 }
 
-// ====== Вибір відповіді ======
-function selectAnswer(btn, correctAnswer) {
-  document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
-
-  if (btn.textContent === correctAnswer) {
-    btn.classList.add('correct');
-    document.getElementById('feedback').textContent = "Правильно!";
-    document.getElementById('feedback').style.color = "green";
-    score++;
-    combo++;
-    soundCorrect.play();
+async function login(email,password){
+  const res = await fetch('http://localhost:5000/api/auth/login',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({email,password})
+  });
+  const data = await res.json();
+  if(data.token){
+    token = data.token;
+    fetchTransactions();
   } else {
-    btn.classList.add('wrong');
-    document.getElementById('feedback').textContent = `Неправильно. Правильна відповідь: ${correctAnswer}`;
-    document.getElementById('feedback').style.color = "red";
-    combo = 0;
-    soundWrong.play();
+    alert(data.error);
   }
-
-  document.getElementById('score').textContent = `Рахунок: ${score}`;
-  document.getElementById('combo').textContent = `Серія правильних відповідей: ${combo}`;
-
-  setTimeout(() => nextWord(), 1000);
 }
 
-// ====== Таймер ======
-function startTimer() {
-  timer = setInterval(() => {
-    timeLeft--;
-    updateTimer();
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      combo = 0;
-      document.getElementById('combo').textContent = `Серія правильних відповідей: ${combo}`;
-      const correctAnswer = translationDirection === 'hr-to-ua' ? currentWord.ua : currentWord.hr;
-      document.getElementById('feedback').textContent = `Час вийшов! Правильна відповідь: ${correctAnswer}`;
-      document.getElementById('feedback').style.color = "red";
-      document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
-      soundWrong.play();
-      setTimeout(() => nextWord(), 1000);
-    }
-  }, 1000);
+// ----- ЗАПИТИ ДО БЕКЕНДУ -----
+
+async function fetchTransactions(){
+  if(!token) return;
+  const res = await fetch('http://localhost:5000/api/transactions',{
+    headers:{'Authorization':'Bearer '+token}
+  });
+  transactions = await res.json();
+  updateUI();
 }
 
-function updateTimer() {
-  const width = (timeLeft / 15) * 100;
-  document.getElementById('timer-bar').style.width = width + "%";
+async function addTransaction(description,amount,type,category){
+  const res = await fetch('http://localhost:5000/api/transactions',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+    body: JSON.stringify({description,amount,type,category})
+  });
+  const newTransaction = await res.json();
+  transactions.unshift(newTransaction);
+  updateUI();
 }
 
-// ====== Прогрес ======
-function updateProgress() {
-  const total = categories[currentCategory].length;
-  const progressPercent = (usedWords.length / total) * 100;
-  document.getElementById('progress-bar').style.width = progressPercent + "%";
+async function deleteTransaction(id){
+  await fetch(`http://localhost:5000/api/transactions/${id}`,{
+    method:'DELETE',
+    headers:{'Authorization':'Bearer '+token}
+  });
+  transactions = transactions.filter(t=>t.id!==id);
+  updateUI();
 }
 
-// ====== Кінець гри ======
-function endGame() {
-  clearInterval(timer);
-  if (score > highscore) highscore = score;
-  document.getElementById('highscore').textContent = highscore;
-
-  document.getElementById('final-result').textContent = `Гра завершена! Ваш рахунок: ${score}. Найдовша серія правильних відповідей: ${combo}`;
-  document.getElementById('word-card').textContent = '';
-  document.getElementById('options').innerHTML = '';
-  document.getElementById('feedback').textContent = '';
-  document.getElementById('timer-bar').style.width = "100%";
-  document.getElementById('progress-bar').style.width = "100%";
+async function editTransaction(id,description,amount,type,category){
+  const res = await fetch(`http://localhost:5000/api/transactions/${id}`,{
+    method:'PUT',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+    body: JSON.stringify({description,amount,type,category})
+  });
+  const updated = await res.json();
+  transactions = transactions.map(t=>t.id===id?updated:t);
+  updateUI();
 }
 
-// ====== Нова гра ======
-function startNewGame() {
-  score = 0;
-  combo = 0;
-  usedWords = [];
-  document.getElementById('score').textContent = `Рахунок: ${score}`;
-  document.getElementById('combo').textContent = `Серія правильних відповідей: ${combo}`;
-  document.getElementById('final-result').textContent = '';
-  nextWord();
+// ----- ФОРМА -----
+
+transactionForm.addEventListener('submit', async e=>{
+  e.preventDefault();
+  const description=descriptionInput.value.trim();
+  const amount=parseFloat(amountInput.value);
+  const type=typeInput.value;
+  const category=categoryInput.value;
+  if(description && !isNaN(amount)){
+    await addTransaction(description,amount,type,category);
+    descriptionInput.value=''; amountInput.value='';
+  }
+});
+
+// ----- ОНОВЛЕННЯ UI -----
+
+function animateBalance(newBalance){
+  const current = parseFloat(balanceEl.textContent.replace('₴','')) || 0;
+  const diff = newBalance - current;
+  const duration = 500;
+  const stepTime = 20;
+  let elapsed = 0;
+  const timer = setInterval(()=>{
+    elapsed += stepTime;
+    const progress = Math.min(elapsed/duration,1);
+    const value = current + diff*progress;
+    balanceEl.textContent = `₴${value.toFixed(2)}`;
+    if(progress===1) clearInterval(timer);
+  }, stepTime);
 }
 
-// ====== Анімація слова ======
-function showWordWithAnimation(word) {
-  const wordCard = document.getElementById('word-card');
-  wordCard.style.opacity = 0;
-  wordCard.style.transform = 'translateY(-20px)';
-  
-  setTimeout(() => {
-    wordCard.textContent = word;
-    wordCard.style.opacity = 1;
-    wordCard.style.transform = 'translateY(0)';
+function updateUI(){
+  transactionsList.innerHTML='';
+  const filtered = transactions.filter(t=>{
+    return (filterType.value==='all'||t.type===filterType.value) &&
+           (filterCategory.value==='all'||t.category===filterCategory.value) &&
+           (t.description.toLowerCase().includes(searchInput.value.toLowerCase()));
+  });
 
-    // озвучка слова
-    speakWord(word);
-  }, 300);
+  filtered.forEach(t=>{
+    const li=document.createElement('li');
+    li.className='show';
+    li.style.backgroundColor=t.type==='income'?categoryColors[t.category]:'#c0392b';
+    li.innerHTML=`${t.description} - ₴${t.amount.toFixed(2)} <span class="delete-btn">×</span>`;
+    const delBtn = li.querySelector('.delete-btn');
+    delBtn.addEventListener('click',()=> deleteTransaction(t.id));
+    transactionsList.appendChild(li);
+  });
+
+  const income = transactions.filter(t=>t.type==='income').reduce((a,b)=>a+b.amount,0);
+  const expense = transactions.filter(t=>t.type==='expense').reduce((a,b)=>a+b.amount,0);
+  animateBalance(income-expense);
+  incomeSummary.textContent=`Дохід: ₴${income.toFixed(2)}`;
+  expenseSummary.textContent=`Витрати: ₴${expense.toFixed(2)}`;
+
+  updateCharts();
 }
+
+// ----- ФІЛЬТРИ -----
+
+[filterType, filterCategory, searchInput].forEach(el=>{
+  el.addEventListener('input',updateUI);
+});
+
+// ----- ОЧИСТИТИ ВСЕ -----
+
+clearAllBtn.addEventListener('click',async ()=>{
+  for(const t of transactions){ await deleteTransaction(t.id); }
+  transactions=[];
+  updateUI();
+});
+
+// ----- ТЕМА -----
+
+themeToggle.addEventListener('click',()=>{
+  darkMode = !darkMode;
+  document.body.style.backgroundColor = darkMode?'#1e1e1e':'#f5f6fa';
+  document.body.style.color = darkMode?'#eee':'#333';
+  main.style.backgroundColor = darkMode?'#2c2c2c':'#fff';
+  themeToggle.textContent = darkMode?'Тема: Темна':'Тема: Світла';
+});
+
+// ----- ГРАФІКИ -----
+
+const financeChart = new Chart(document.getElementById('financeChart'),{
+  type:'bar',
+  data:{labels:['Дохід','Витрати'],datasets:[{label:'Фінанси',data:[0,0],backgroundColor:['#2ecc71','#e74c3c']}]},
+  options:{responsive:true,plugins:{legend:{display:false}}}
+});
+
+const pieChart = new Chart(document.getElementById('pieChart'),{
+  type:'pie',
+  data:{labels:Object.keys(categoryColors),datasets:[{data:[0,0,0,0,0],backgroundColor:Object.values(categoryColors)}]},
+  options:{responsive:true,plugins:{legend:{display:false}}}
+});
+
+function updateCharts(){
+  const incomeSum = transactions.filter(t=>t.type==='income').reduce((a,b)=>a+b.amount,0);
+  const expenseSum = transactions.filter(t=>t.type==='expense').reduce((a,b)=>a+b.amount,0);
+  financeChart.data.datasets[0].data=[incomeSum,expenseSum];
+  financeChart.update();
+
+  const catSums = Object.keys(categoryColors).map(cat=>transactions.filter(t=>t.category===cat).reduce((a,b)=>a+b.amount,0));
+  pieChart.data.datasets[0].data=catSums;
+  pieChart.update();
+}
+
+// ----- ІНІЦІАЛІЗАЦІЯ -----
+
+// Якщо користувач вже авторизований (наприклад, з localStorage)
+// token = localStorage.getItem('token');
+// if(token) fetchTransactions();
+
+// Для тесту можна викликати login() вручну або додати форму логіну
