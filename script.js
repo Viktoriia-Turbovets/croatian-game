@@ -347,11 +347,6 @@ function changeDirection() {
   document.getElementById('options').innerHTML = '';
 }
 
-function changeLevel() {
-  level = parseInt(document.getElementById('level').value);
-  document.getElementById('word-card').textContent = 'Натисніть "Нова гра"';
-  document.getElementById('options').innerHTML = '';
-}
 
 // ====== Наступне слово ======
 function nextWord() {
@@ -406,17 +401,19 @@ function nextWord() {
 function createOptions() {
   const optionsContainer = document.getElementById('options');
 
-  let optionsCount = level === 1 ? 2 : level === 2 ? 3 : 4;
-
-  const allWords = [].concat(...Object.values(categories));
+  const optionsCount = 3; // завжди 3 варіанти
+  const wordsArray = categories[currentCategory]; // тільки поточна категорія
   const answersSet = new Set();
+
+  // правильна відповідь
   const correctAnswer = translationDirection === 'hr-to-ua' ? currentWord.ua : currentWord.hr;
   const questionWord = translationDirection === 'hr-to-ua' ? currentWord.hr : currentWord.ua;
   document.getElementById('word-card').textContent = questionWord;
   answersSet.add(correctAnswer);
 
+  // додаємо інші варіанти з тієї ж категорії
   while (answersSet.size < optionsCount) {
-    const randomWord = allWords[Math.floor(Math.random() * allWords.length)];
+    const randomWord = wordsArray[Math.floor(Math.random() * wordsArray.length)];
     const answer = translationDirection === 'hr-to-ua' ? randomWord.ua : randomWord.hr;
     answersSet.add(answer);
   }
