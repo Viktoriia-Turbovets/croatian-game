@@ -15,6 +15,27 @@ const soundCorrect = document.getElementById('sound-correct');
 const soundWrong = document.getElementById('sound-wrong');
 
 // ====== Функція озвучки ======
+// ====== Вимикаємо озвучку на мобільних ======
+const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+
+if(isMobile){
+  // Заглушити аудіо
+  soundCorrect.muted = true;
+  soundWrong.muted = true;
+
+  // Переписати speakWord, щоб на мобільних не відтворювався звук
+  speakWord = function(word){
+    // нічого не робимо на мобільних
+  };
+} else {
+  // На десктопі залишаємо озвучку працювати як раніше
+  speakWord = function(word) {
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = 'hr-HR'; // хорватська
+    speechSynthesis.speak(utterance);
+  };
+}
+
 function speakWord(word) {
   const utterance = new SpeechSynthesisUtterance(word);
   utterance.lang = 'hr-HR'; // хорватська
