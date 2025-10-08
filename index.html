@@ -1,110 +1,87 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>МонетКіпер</title>
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5NTJ1074T3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5NTJ1074T3');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Міні-гра: Вивчення хорватської мови</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main>
-  <div id="authContainer">
-    <h2>Вхід / Реєстрація</h2>
+  <div class="container">
+    <h1>Міні-гра: Вивчення хорватської мови</h1>
+    <p>Вгадайте переклад слова за 15 секунд!</p>
 
-    <div id="registerForm">
-      <h3>Реєстрація</h3>
-      <input type="text" id="regName" placeholder="Ім'я">
-      <input type="email" id="regEmail" placeholder="Email">
-      <input type="password" id="regPassword" placeholder="Пароль">
-      <button id="registerBtn">Зареєструватися</button>
+    <!-- Вибір категорії -->
+    <div class="select-row">
+      <label for="category">Оберіть категорію:</label>
+      <select id="category" onchange="changeCategory()">
+        <option value="greetings">Привітання</option>
+        <option value="food">Їжа та напої</option>
+        <option value="travel">Подорожі</option>
+        <option value="weather">Погода</option>
+        <option value="family">Сім’я</option>
+        <option value="professions">Професії</option>
+        <option value="animals">Тварини</option>
+        <option value="clothes">Одяг</option>
+        <option value="colors">Кольори</option>
+        <option value="school">Школа</option>
+      </select>
     </div>
 
-    <div id="loginForm">
-      <h3>Вхід</h3>
-      <input type="email" id="loginEmail" placeholder="Email">
-      <input type="password" id="loginPassword" placeholder="Пароль">
-      <button id="loginBtn">Увійти</button>
+    <!-- Вибір напрямку перекладу -->
+    <div class="select-row">
+      <label for="translation-direction">Напрямок перекладу:</label>
+      <select id="translation-direction" onchange="changeDirection()">
+        <option value="hr-to-ua">Хорватська → Українська</option>
+        <option value="ua-to-hr">Українська → Хорватська</option>
+      </select>
     </div>
+
+    <!-- Вибір рівня -->
+    <div class="select-row">
+      <label for="level">Рівень складності:</label>
+      <select id="level" onchange="changeLevel()">
+        <option value="1">Простий (2 варіанти)</option>
+        <option value="2">Середній (3 варіанти)</option>
+        <option value="3">Складний (4 варіанти)</option>
+      </select>
+    </div>
+
+    <!-- Картка слова -->
+    <div id="word-card" class="word-card"></div>
+
+    <!-- Варіанти відповіді -->
+    <div id="options" class="options"></div>
+
+    <!-- Кнопки управління -->
+    <button onclick="startNewGame()">Нова гра</button>
+    <button onclick="endGame()">Завершити гру</button>
+
+    <!-- Таймер та прогрес -->
+    <div id="timer-container"><div id="timer-bar"></div></div>
+    <div id="progress-container"><div id="progress-bar"></div></div>
+
+    <!-- Фідбек та рахунок -->
+    <p id="feedback"></p>
+    <p id="score">Рахунок: 0</p>
+    <p id="combo">Серія правильних відповідей: 0</p>
+    <p>Найвищий рекорд: <span id="highscore">0</span></p>
+    <div id="final-result" class="final-result"></div>
+
+    <!-- Аудіо -->
+    <audio id="sound-correct" src="correct.mp3"></audio>
+    <audio id="sound-wrong" src="wrong.mp3"></audio>
   </div>
 
-  <div id="appContainer" style="display:none;">
-    <h1>МонетКіпер</h1>
-    <button id="themeToggle">Тема: Світла</button>
-
-    <div id="balance">₴0.00</div>
-    <div id="incomeSummary">Дохід: ₴0.00</div>
-    <div id="expenseSummary">Витрати: ₴0.00</div>
-
-    <form id="transactionForm">
-      <input type="text" id="description" placeholder="Опис">
-      <input type="number" id="amount" placeholder="Сума">
-      <select id="type">
-        <option value="income">Дохід</option>
-        <option value="expense">Витрати</option>
-      </select>
-      <select id="category">
-        <option value="salary">Зарплата</option>
-        <option value="food">Їжа</option>
-        <option value="entertainment">Розваги</option>
-        <option value="shopping">Покупки</option>
-        <option value="other">Інше</option>
-      </select>
-      <button type="submit">Додати</button>
-    </form>
-
-    <input type="text" id="searchInput" placeholder="Пошук">
-    <select id="filterType">
-      <option value="all">Всі типи</option>
-      <option value="income">Дохід</option>
-      <option value="expense">Витрати</option>
-    </select>
-    <select id="filterCategory">
-      <option value="all">Всі категорії</option>
-      <option value="salary">Зарплата</option>
-      <option value="food">Їжа</option>
-      <option value="entertainment">Розваги</option>
-      <option value="shopping">Покупки</option>
-      <option value="other">Інше</option>
-    </select>
-
-    <button id="clearAllBtn">Очистити все</button>
-
-    <ul id="transactionsList"></ul>
-
-    <canvas id="financeChart"></canvas>
-    <canvas id="pieChart"></canvas>
-  </div>
-</main>
-
-<script src="script.js"></script>
-<script>
-const registerBtn = document.getElementById('registerBtn');
-const loginBtn = document.getElementById('loginBtn');
-const regName = document.getElementById('regName');
-const regEmail = document.getElementById('regEmail');
-const regPassword = document.getElementById('regPassword');
-const loginEmail = document.getElementById('loginEmail');
-const loginPassword = document.getElementById('loginPassword');
-const authContainer = document.getElementById('authContainer');
-const appContainer = document.getElementById('appContainer');
-
-registerBtn.addEventListener('click', async () => {
-  const res = await register(regName.value, regEmail.value, regPassword.value);
-  if(res.user){
-    alert('Реєстрація успішна! Увійдіть');
-  } else {
-    alert(res.error || 'Помилка реєстрації');
-  }
-});
-
-loginBtn.addEventListener('click', async () => {
-  await login(loginEmail.value, loginPassword.value);
-  if(token){
-    authContainer.style.display='none';
-    appContainer.style.display='block';
-  }
-});
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
