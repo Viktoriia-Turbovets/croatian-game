@@ -69,8 +69,7 @@ const categories = {
     {hr: "Drago mi je", ua: "Радий зустрічі"},
     {hr: "Lijepo vas je vidjeti", ua: "Приємно вас бачити"},
     {hr: "Pozdrav", ua: "Вітання"},
-    {hr: "Dobar večer", ua: "Добрий вечір"},
-    {hr: "Prijatno", ua: "Смачного"}
+    {hr: "Dobar večer", ua: "Добрий вечір"}
   ],
 
   food: [
@@ -108,7 +107,7 @@ const categories = {
     {hr: "Sretan put", ua: "Щасливої дороги"},
     {hr: "Gdje mogu naći restoran?", ua: "Де я можу знайти ресторан?"},
     {hr: "Koliko traje putovanje?", ua: "Скільки триває подорож?"},
-    {hr: "Koje je tvoje ime?", ua: "Як тебе звати?"},
+    {hr: "Kako se zoveš?", ua: "Як тебе звати?"},
     {hr: "Ja sam umoran", ua: "Я втомився"},
     {hr: "Moram ići", ua: "Мені треба йти"},
     {hr: "Veselim se sutra", ua: "Радий завтрашньому дню"},
@@ -119,9 +118,9 @@ const categories = {
     {hr: "Karta", ua: "Квиток"},
     {hr: "Hotel", ua: "Готель"},
     {hr: "Recepcija", ua: "Ресепшн"},
-    {hr: "Taxi", ua: "Таксі"},
+    {hr: "Taksi", ua: "Таксі"},
     {hr: "Plaža", ua: "Пляж"},
-    {hr: "Autoput", ua: "Автострада"},
+    {hr: "Autocesta", ua: "Автострада"},
     {hr: "Pješačka zona", ua: "Пішохідна зона"},
     {hr: "Muzej", ua: "Музей"},
     {hr: "Trgovina", ua: "Магазин"},
@@ -171,16 +170,16 @@ const categories = {
     {hr: "Ujak", ua: "Дядько"},
     {hr: "Kum", ua: "Хрещений"},
     {hr: "Kuma", ua: "Хрещена"},
-    {hr: "Suprug", ua: "Чоловік"},
-    {hr: "Supruga", ua: "Дружина"},
-    {hr: "Dijete u dobi od 1 godine", ua: "Однорічна дитина"},
-    {hr: "Bebe", ua: "Діти"},
+    {hr: "Muž", ua: "Чоловік"},
+    {hr: "Žena", ua: "Дружина"},
+    {hr: "Jednogodišnje dijete", ua: "Однорічна дитина"},
+    {hr: "Djeca", ua: "Діти"},
     {hr: "Sin", ua: "Син"},
     {hr: "Kći", ua: "Дочка"},
     {hr: "Roditelji", ua: "Батьки"},
     {hr: "Braća", ua: "Брати"},
     {hr: "Sestre", ua: "Сестри"},
-    {hr: "Obiteljski dom", ua: "Сімейний дім"},
+    {hr: "Obiteljska kuća", ua: "Сімейний дім"},
     {hr: "Rođenje", ua: "Народження"},
     {hr: "Obiteljska veza", ua: "Сімейний зв’язок"}
   ],
@@ -209,7 +208,7 @@ const categories = {
     {hr: "Konobar", ua: "Офіціант"},
     {hr: "Prodavač", ua: "Продавець"},
     {hr: "Ljekarnik", ua: "Фармацевт"},
-    {hr: "Farmer", ua: "Фермер"},
+    {hr: "Poljoprivrednik", ua: "Фермер"},
     {hr: "Mesar", ua: "М’ясник"}
   ],
 
@@ -224,7 +223,7 @@ const categories = {
     {hr: "Krava", ua: "Корова"},
     {hr: "Ovca", ua: "Вівця"},
     {hr: "Koza", ua: "Коза"},
-        {hr: "Svinja", ua: "Свиня"},
+    {hr: "Svinja", ua: "Свиня"},
     {hr: "Medvjed", ua: "Ведмідь"},
     {hr: "Vuk", ua: "Вовк"},
     {hr: "Lisica", ua: "Лисиця"},
@@ -235,10 +234,9 @@ const categories = {
     {hr: "Žaba", ua: "Жаба"},
     {hr: "Guska", ua: "Гуска"},
     {hr: "Patka", ua: "Качка"},
-    {hr: "Ćuk", ua: "Сова"},
+    {hr: "Sova", ua: "Сова"},
     {hr: "Golub", ua: "Голуб"},
-    {hr: "Kornjača", ua: "Черепаха"},
-    {hr: "Rak", ua: "Рак"}
+    {hr: "Kornjača", ua: "Черепаха"}
   ],
 
   clothes: [
@@ -254,7 +252,6 @@ const categories = {
     {hr: "Jakna", ua: "Куртка"},
     {hr: "Papuče", ua: "Тапочки"},
     {hr: "Suknja", ua: "Спідниця"},
-    {hr: "Šorc", ua: "Шорти"},
     {hr: "Prsluk", ua: "Жилет"},
     {hr: "Kravata", ua: "Краватка"},
     {hr: "Šal", ua: "Шарф"},
@@ -266,7 +263,7 @@ const categories = {
     {hr: "Rokavi", ua: "Рукави"},
     {hr: "Kapa s ušima", ua: "Шапка з вушками"},
     {hr: "Sportska odjeća", ua: "Спортивний одяг"},
-    {hr: "Papuce za plažu", ua: "В’єтнамки"}
+    {hr: "Jpanke", ua: "В’єтнамки"}
   ],
 
   colors: [
@@ -294,7 +291,7 @@ const categories = {
     {hr: "Ljuska", ua: "Шкаралупа"},
     {hr: "Kobalt", ua: "Кобальт"},
     {hr: "Cijan", ua: "Ціан"},
-    {hr: "Indigo", ua: "Індиго"}
+    {hr: "Boja", ua: "Колір"}
   ],
 
   school: [
@@ -310,15 +307,15 @@ const categories = {
     {hr: "Kreda", ua: "Крейда"},
     {hr: "Školska torba", ua: "Шкільна сумка"},
     {hr: "Geometrijski pribor", ua: "Геометричний набір"},
-    {hr: "Bilježnica s crtama", ua: "Зошит у лінійку"},
-    {hr: "Bilježnica bez crt", ua: "Зошит у клітинку"},
+    {hr: "Bilježnica u crte", ua: "Зошит у лінійку"},
+    {hr: "Bilježnica u kvadratić", ua: "Зошит у клітинку"},
     {hr: "Olovka s gumicom", ua: "Олівець з гумкою"},
     {hr: "Flomaster", ua: "Фломастер"},
-    {hr: "Boje", ua: "Олівці/Фарби"},
+    {hr: "Boje", ua: "Фарби"},
     {hr: "Školski pribor", ua: "Шкільне приладдя"},
-    {hr: "Pisaći stol", ua: "Письмовий стіл"},
+    {hr: "Radni stol", ua: "Письмовий стіл"},
     {hr: "Knjigovodstvo", ua: "Бухгалтерія"},
-    {hr: "Rokovnik", ua: "Щоденник"},
+    {hr: "Dnevnik", ua: "Щоденник"},
     {hr: "Papir", ua: "Папір"},
     {hr: "Knjiga zadataka", ua: "Збірник завдань"},
     {hr: "Matematika", ua: "Математика"},
