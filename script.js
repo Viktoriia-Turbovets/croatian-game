@@ -9,6 +9,7 @@ let highscore = 0;
 let currentCategory = 'greetings';
 let usedWords = [];
 let translationDirection = 'hr-to-ua';
+let exerciseType = 'words';
 
 
 const soundCorrect = document.getElementById('sound-correct');
@@ -18,30 +19,20 @@ const soundWrong = document.getElementById('sound-wrong');
 // ====== Вимикаємо озвучку на мобільних ======
 const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
 
-if(isMobile){
-  // Заглушити аудіо
+// Вимикаємо звуки кліків на мобільних
+if (isMobile) {
   soundCorrect.muted = true;
   soundWrong.muted = true;
-
-  // Переписати speakWord, щоб на мобільних не відтворювався звук
-  speakWord = function(word){
-    // нічого не робимо на мобільних
-  };
-} else {
-  // На десктопі залишаємо озвучку працювати як раніше
-  speakWord = function(word) {
-    const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = 'hr-HR'; // хорватська
-    speechSynthesis.speak(utterance);
-  };
 }
 
-function speakWord(word) {
+// ЄДИНА правильна функція озвучки
+const speakWord = (word) => {
+  if (isMobile) return; // нічого не робимо на мобільних
+
   const utterance = new SpeechSynthesisUtterance(word);
   utterance.lang = 'hr-HR'; // хорватська
   speechSynthesis.speak(utterance);
-}
-
+};
 
 // Дані для категорій
 const categories = {
@@ -347,14 +338,15 @@ function changeDirection() {
   document.getElementById('options').innerHTML = '';
 }
 
-
 // ====== Наступне слово ======
 function nextWord() {
   clearInterval(timer);
   timeLeft = 15;
   updateTimer();
 
-  const wordsArray = categories[currentCategory];
+  const wordsArray = exerciseType === 'verbs'
+  ? categories.verbs
+  : categories[currentCategory];
   if (usedWords.length === wordsArray.length) {
     endGame();
     return;
@@ -372,7 +364,7 @@ function nextWord() {
   document.getElementById('feedback').textContent = '';
   document.getElementById('options').innerHTML = '';
 
-  if (currentCategory === 'verbs') {
+  if (exerciseType === 'verbs') {
     // урок "biti" – показуємо тільки subject, варіанти – options
     const optionsContainer = document.getElementById('options');
     document.getElementById('word-card').textContent = currentWord.subject;
@@ -454,6 +446,14 @@ function selectAnswer(btn, correctAnswer) {
   setTimeout(() => nextWord(), 1000);
 }
 
+function changeExerciseType() {
+  exerciseType = document.getElementById('exercise-type').value;
+
+  usedWords = [];
+  document.getElementById('word-card').textContent = 'Натисніть "Нова гра"';
+  document.getElementById('options').innerHTML = '';
+}
+
 // ====== Таймер ======
 function startTimer() {
   timer = setInterval(() => {
@@ -509,3 +509,4 @@ function startNewGame() {
   document.getElementById('final-result').textContent = '';
   nextWord();
 }
+
