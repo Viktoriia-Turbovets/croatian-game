@@ -20,6 +20,14 @@
     <h1>Міні-гра: Вивчення хорватської мови</h1>
     <p>Вгадайте переклад слова за 15 секунд!</p>
 
+ <div class="select-row">
+  <label for="exercise-type">Види вправ:</label>
+   <select id="exercise-type" onchange="changeExerciseType()">
+     <option value="words">Вивчення слів</option>
+     <option value="verbs">Дієслово бути</option>
+   </select>
+ </div>
+
     <!-- Вибір категорії -->
     <div class="select-row">
       <label for="category">Оберіть категорію:</label>
